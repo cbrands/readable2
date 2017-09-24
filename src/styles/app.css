@@ -1,0 +1,41 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: antiquewhite;
+}
+
+.margin-bottom10 {
+    margin-bottom: 10px;
+}
+
+.comments-distance {
+    margin-left: 2px;
+}
+
+.comments {
+    color: white;
+    background-color: grey;
+    padding: 8px;
+    padding-bottom: 9px;
+    border-radius: 5px;
+    margin-left: 30px;
+}
+
+.edit-buttons {
+    float: left;
+}
+
+.vote-buttons {
+    float: right;
+}
+
+.inline {
+    display:inline;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}

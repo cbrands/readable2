@@ -1,8 +1,11 @@
 import React from 'react';
+import Aside from "./Aside";
+import PostsSection from "./PostsSection";
 
 const Mainview = () => (
     <div>
-        Hello world!
+        <Aside/>
+        <PostsSection/>
     </div>
 );
 
