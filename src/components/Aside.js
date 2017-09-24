@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {fetchCategoriesFromServer} from '../utils/Backend';
 
 
 class Aside extends Component {
@@ -8,11 +7,6 @@ class Aside extends Component {
         this.state = {
             categories: []
         }
-        this.fetchCategories();
-    }
-
-    fetchCategories = () => {
-        fetchCategoriesFromServer().then((categories) => this.setState({categories}));
     }
 
     render() {

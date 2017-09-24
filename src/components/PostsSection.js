@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {fetchPostsFromServer} from '../utils/Backend';
 
 class PostsSection extends Component {
     constructor(props) {
@@ -7,11 +6,6 @@ class PostsSection extends Component {
         this.state = {
             posts: []
         }
-        this.fetchPosts();
-    }
-
-    fetchPosts = () => {
-        fetchPostsFromServer().then((posts) => this.setState({posts}));
     }
 
     render() {
