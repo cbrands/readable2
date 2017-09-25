@@ -8,8 +8,9 @@ export const FETCH_POSTS = "fetch_posts";
 export const FETCH_POST = "fetch_post";
 
 export function fetchCategories() {
+    console.log(getHeaders());
     const request = axios.get(`${api}/categories`, getHeaders());
-
+    console.log('request', request);
     return {
         type: FETCH_CATEGORIES,
         payload: request
@@ -19,7 +20,7 @@ export function fetchCategories() {
 
 export function fetchPosts() {
     const request = axios.get(`${api}/posts`, getHeaders());
-
+    console.log('request', request);
     return {
         type: FETCH_POSTS,
         payload: request

@@ -9,6 +9,7 @@ function returnToken(){
         for(let i = 0; i < 32; i++){
             token += abc[Math.floor(Math.random()*abc.length)];
         }
+        localStorage.token = token;
         return token;
     }
 }
@@ -19,5 +20,8 @@ export function getHeaders() {
         'Accept': 'application/json',
         'Authorization': myToken
     }
-    return headers;
+    const headersObject = {
+        headers: headers
+    }
+    return headersObject;
 }
