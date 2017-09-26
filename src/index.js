@@ -8,9 +8,11 @@ import promise from 'redux-promise';
 import reducers from "./reducers";
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
+const store = createStoreWithMiddleware(reducers);
+store.subscribe(() => console.log('store', store.getState()));
 
 ReactDOM.render(
-    <Provider store={createStoreWithMiddleware(reducers)}>
+    <Provider store={store}>
         <BrowserRouter>
             <App/>
         </BrowserRouter>
