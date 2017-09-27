@@ -9,7 +9,7 @@ const PostListItem = ({post}) => {
                 {post.title}
             </Link>
         </li>
-    )
+    );
 }
 
 export default PostListItem;

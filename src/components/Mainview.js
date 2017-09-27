@@ -52,9 +52,14 @@ class Mainview extends Component {
     }
 
     renderPosts() {
-        return _.map(this.props.posts, post => {
-            return (<PostListItem post={post}/>);
-        });
+        if (this.props.posts) {
+            return _.map(this.props.posts, post => {
+                return (<PostListItem key={post.id} post={post}/>);
+            });
+        } else {
+            return (<div></div>);
+        }
+
     }
 
     render() {
