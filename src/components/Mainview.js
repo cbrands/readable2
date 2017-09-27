@@ -4,11 +4,14 @@ import { bindActionCreators } from "redux";
 import _ from "lodash";
 import { Link, NavLink, withRouter } from "react-router-dom";
 import { fetchCategories, fetchPosts, fetchPostsForCategory } from "../actions/index";
+import PostListItem from './PostListItem';
+import CategoryListItem from "./CategoryListItem";
 
 class Mainview extends Component {
     componentDidMount() {
         this.props.fetchCategories();
         this.getPosts();
+        console.log('props', this.props);
     }
 
     getPosts = () => {
@@ -16,16 +19,26 @@ class Mainview extends Component {
             let myUrl = this.props.match.url.substring(1, );
             console.log('fetchposts for ', myUrl);
             this.props.fetchPostsForCategory(myUrl);
-            this.setState({myUrl: myUrl});
         } else {
             console.log('fetchposts');
             this.props.fetchPosts();
-            this.setState({myUrl: ''});
         }
-
+        this.setState({key: Math.random()});
     }
 
+    getPostsForPath = (pathName) => {
+        let myUrl = pathName.substring(1, );
+        if (myUrl === '') {
+            this.props.fetchPosts();
+        } else {
+            this.props.fetchPostsForCategory(myUrl);
+        }
+    }
+
+
     componentWillUpdate() {
+        console.log("HEY");
+        console.log(this.props);
         //this.getPosts();
     }
 
@@ -33,33 +46,20 @@ class Mainview extends Component {
         let categoryArray = Object.values(this.props.categories);
         return _.map(categoryArray, myCategories=> {
             return _.map(myCategories, category => {
-                return (
-                    <li className="list-group-item" key={category.name}>
-                        <NavLink to={`/${category.path}`} onClick={this.getPosts}>
-                            {category.name}
-                        </NavLink>
-                    </li>
-                );
+                return(<CategoryListItem category={category}/>);
             });
         });
     }
 
     renderPosts() {
         return _.map(this.props.posts, post => {
-            return (
-                <li className="list-group-item" key={post.id}>
-                    <Link to={`/${post.category}/${post.id}`}>
-                        {post.title}
-                    </Link>
-                </li>
-            );
+            return (<PostListItem post={post}/>);
         });
     }
 
     render() {
-        const currentLocation = this.props.match.location;
-        console.log(currentLocation);
-        //console.log('mv-props2', this.props);
+        console.log("THERE");
+        console.log(this.props);
         return (
             <div>
                 <aside className="col-md-4 col-xs-12">
@@ -68,7 +68,7 @@ class Mainview extends Component {
                     <ul className="list-group">
                         {this.renderCategories()}
                     </ul>
-                    <Link to={{pathname: `/`, state: {selectedCategory: 'All'}}}>
+                    <Link to={`/`}>
                         <i className="fa fa-home" aria-hidden="true"></i>
                     </Link>
                 </aside>
@@ -96,4 +96,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({ fetchCategories, fetchPosts, fetchPostsForCategory }, dispatch);
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Mainview));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {pure: false})(Mainview));
