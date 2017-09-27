@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import _ from "lodash";
 import { Link, NavLink, withRouter } from "react-router-dom";
 import { fetchCategories, fetchPosts, fetchPostsForCategory } from "../actions/index";
-import PostListItem from './PostListItem';
+import PostList from './PostList';
 import CategoryList from "./CategoryList";
 
 class Mainview extends Component {
@@ -44,11 +44,7 @@ class Mainview extends Component {
 
 
 
-    renderPosts() {
-        return _.map(this.props.posts, post => {
-            return (<PostListItem key={post.id} post={post}/>);
-        });
-    }
+
 
     render() {
         console.log("THERE");
@@ -57,7 +53,6 @@ class Mainview extends Component {
             <div>
                 <aside className="col-md-4 col-xs-12">
                     <h2>Categories</h2>
-                    this.state.categories ??????
                     <CategoryList props={this.props.categories}/>
 
                     <Link to={`/`}>
@@ -66,9 +61,8 @@ class Mainview extends Component {
                 </aside>
                 <section className="col-md-8 col-xs-12">
                     <h2>Posts</h2>
-                    <ul className="list-group">
-                        {this.renderPosts()}
-                    </ul>
+
+                    <PostList props={this.props.posts}/>
                 </section>
             </div>
         )
