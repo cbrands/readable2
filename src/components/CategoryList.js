@@ -1,18 +1,24 @@
 import React from 'react';
-import NewsItem from './news_list_item';
+import _ from "lodash";
+import CategoryListItem from './CategoryListItem';
 
 const CategoryList = (props) => {
 
-    const categories = props.news.map((item) =>{
-        return (
-            <NewsItem key={item.id} item={item}/>
-        )
-    })
+    const categories = (props) => {
+        let categoryArray = Object.values(props);
+        return _.map(categoryArray, myCategories=> {
+            return _.map(myCategories, insideCategories => {
+                return _.map(insideCategories, category => {
+                    return(<CategoryListItem category={category}/>);
+                });
+            });
+        });
+    }
 
     return(
-        <div>
-            {categories}
-        </div>
+        <ul className="list-group">
+            {categories(props)}
+        </ul>
     )
 }
 

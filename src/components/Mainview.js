@@ -5,7 +5,7 @@ import _ from "lodash";
 import { Link, NavLink, withRouter } from "react-router-dom";
 import { fetchCategories, fetchPosts, fetchPostsForCategory } from "../actions/index";
 import PostListItem from './PostListItem';
-import CategoryListItem from "./CategoryListItem";
+import CategoryList from "./CategoryList";
 
 class Mainview extends Component {
     componentDidMount() {
@@ -42,24 +42,12 @@ class Mainview extends Component {
         //this.getPosts();
     }
 
-    renderCategories() {
-        let categoryArray = Object.values(this.props.categories);
-        return _.map(categoryArray, myCategories=> {
-            return _.map(myCategories, category => {
-                return(<CategoryListItem category={category}/>);
-            });
-        });
-    }
+
 
     renderPosts() {
-        if (this.props.posts) {
-            return _.map(this.props.posts, post => {
-                return (<PostListItem key={post.id} post={post}/>);
-            });
-        } else {
-            return (<div></div>);
-        }
-
+        return _.map(this.props.posts, post => {
+            return (<PostListItem key={post.id} post={post}/>);
+        });
     }
 
     render() {
@@ -69,10 +57,9 @@ class Mainview extends Component {
             <div>
                 <aside className="col-md-4 col-xs-12">
                     <h2>Categories</h2>
+                    this.state.categories ??????
+                    <CategoryList props={this.props.categories}/>
 
-                    <ul className="list-group">
-                        {this.renderCategories()}
-                    </ul>
                     <Link to={`/`}>
                         <i className="fa fa-home" aria-hidden="true"></i>
                     </Link>
