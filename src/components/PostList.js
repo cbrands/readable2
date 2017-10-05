@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from "react-redux";
 import _ from "lodash";
 import PostListItem from './PostListItem';
 
-const PostList = (props) => {
+class PostList extends Component {
 
-    const posts = (props) => {
+    posts = (props) => {
+        console.log('postlistprops', props);
         let postsArray = Object.values(props);
         return _.map(postsArray, myPosts => {
             return _.map(myPosts, post => {
@@ -13,11 +15,19 @@ const PostList = (props) => {
         });
     }
 
-    return(
-        <ul className="list-group">
-            {posts(props)}
-        </ul>
-    )
+    render() {
+        return(
+            <ul className="list-group">
+                {this.posts(this.props)}
+            </ul>
+        )
+    }
 }
 
-export default PostList;
+function mapStateToProps(state) {
+    return {
+        posts: state.posts
+    };
+}
+
+export default connect(mapStateToProps)(PostList);

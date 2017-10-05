@@ -7,6 +7,14 @@ export const FETCH_CATEGORIES = "fetch_categories";
 export const FETCH_POSTS = "fetch_posts";
 export const FETCH_POSTS_FOR_CATEGORY = "fetch_posts_for_category";
 export const FETCH_POST = "fetch_post";
+export const SELECT_CATEGORY = "select_category";
+
+export function selectCategory(category) {
+    return {
+        type: SELECT_CATEGORY,
+        payload: category
+    };
+}
 
 export function fetchCategories() {
     const request = axios.get(`${api}/categories`, getHeaders());

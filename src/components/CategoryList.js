@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import _ from "lodash";
 import CategoryListItem from './CategoryListItem';
+import { connect } from "react-redux";
 
-const CategoryList = (props) => {
+class CategoryList extends Component {
 
-    const categories = (props) => {
+    categories = (props) => {
         let categoryArray = Object.values(props);
         return _.map(categoryArray, myCategories=> {
             return _.map(myCategories, insideCategories => {
@@ -15,11 +16,19 @@ const CategoryList = (props) => {
         });
     }
 
-    return(
-        <ul className="list-group">
-            {categories(props)}
-        </ul>
-    )
+    render() {
+        return (
+            <ul className="list-group">
+                {this.categories(this.props)}
+            </ul>
+        )
+    }
 }
 
-export default CategoryList;
+function mapStateToProps(state) {
+    return {
+        categories: state.categories
+    };
+}
+
+export default connect(mapStateToProps)(CategoryList);

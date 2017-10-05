@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import _ from "lodash";
-import { Link, NavLink, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { fetchCategories, fetchPosts, fetchPostsForCategory } from "../actions/index";
 import PostList from './PostList';
 import CategoryList from "./CategoryList";
@@ -11,7 +10,7 @@ class Mainview extends Component {
     componentDidMount() {
         this.props.fetchCategories();
         this.getPosts();
-        console.log('props', this.props);
+        console.log('mainview props', this.props);
     }
 
     getPosts = () => {
@@ -35,16 +34,11 @@ class Mainview extends Component {
         }
     }
 
-
     componentWillUpdate() {
         console.log("HEY");
         console.log(this.props);
         //this.getPosts();
     }
-
-
-
-
 
     render() {
         console.log("THERE");
@@ -53,7 +47,7 @@ class Mainview extends Component {
             <div>
                 <aside className="col-md-4 col-xs-12">
                     <h2>Categories</h2>
-                    <CategoryList props={this.props.categories}/>
+                    <CategoryList/>
 
                     <Link to={`/`}>
                         <i className="fa fa-home" aria-hidden="true"></i>
@@ -61,8 +55,7 @@ class Mainview extends Component {
                 </aside>
                 <section className="col-md-8 col-xs-12">
                     <h2>Posts</h2>
-
-                    <PostList props={this.props.posts}/>
+                    <PostList/>
                 </section>
             </div>
         )
