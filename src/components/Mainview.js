@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Link, withRouter } from "react-router-dom";
-import { fetchCategories, fetchPosts, fetchPostsForCategory } from "../actions/index";
+import { fetchCategories, fetchPosts, fetchPostsForCategory, selectCategory } from "../actions/index";
 import PostList from './PostList';
 import CategoryList from "./CategoryList";
 
@@ -10,27 +10,30 @@ class Mainview extends Component {
     componentDidMount() {
         this.props.fetchCategories();
         this.getPosts();
-        console.log('mainview props', this.props);
+    }
+
+    isEmpty = (obj) => {
+        for(var key in obj) {
+            if(obj.hasOwnProperty(key))
+                return false;
+        }
+        return true;
     }
 
     getPosts = () => {
-        if(this.props.match && this.props.match.url !== "/") {
-            let myUrl = this.props.match.url.substring(1, );
-            console.log('fetchposts for ', myUrl);
-            this.props.fetchPostsForCategory(myUrl);
-        } else {
-            console.log('fetchposts');
-            this.props.fetchPosts();
-        }
-        this.setState({key: Math.random()});
-    }
-
-    getPostsForPath = (pathName) => {
-        let myUrl = pathName.substring(1, );
-        if (myUrl === '') {
+        if (this.isEmpty(this.props.selectedCategory)) {
+            const pathName = this.props.location.pathname;
+            if (pathName === "/") {
+                this.props.selectCategory("home");
+                this.props.fetchPosts();
+            } else {
+                this.props.selectCategory(pathName.substr(1,));
+                this.props.fetchPostsForCategory(pathName.substr(1,));
+            }
+        } else if (this.props.selectedCategory === 'home') {
             this.props.fetchPosts();
         } else {
-            this.props.fetchPostsForCategory(myUrl);
+            this.props.fetchPostsForCategory(this.props.selectedCategory);
         }
     }
 
@@ -38,6 +41,16 @@ class Mainview extends Component {
         console.log("HEY");
         console.log(this.props);
         //this.getPosts();
+    }
+
+    componentDidUpdate() {
+        console.log("HEYHEY");
+        console.log(this.props);
+    }
+
+    homeClicked = () => {
+        this.props.selectCategory("home");
+        this.props.fetchPosts();
     }
 
     render() {
@@ -48,8 +61,7 @@ class Mainview extends Component {
                 <aside className="col-md-4 col-xs-12">
                     <h2>Categories</h2>
                     <CategoryList/>
-
-                    <Link to={`/`}>
+                    <Link to={`/`} onClick={() => this.homeClicked()}>
                         <i className="fa fa-home" aria-hidden="true"></i>
                     </Link>
                 </aside>
@@ -67,12 +79,13 @@ class Mainview extends Component {
 function mapStateToProps(state) {
     return {
         categories: state.categories,
-        posts: state.posts
+        posts: state.posts,
+        selectedCategory: state.selectedCategory
     };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchCategories, fetchPosts, fetchPostsForCategory }, dispatch);
+    return bindActionCreators({ fetchCategories, fetchPosts, fetchPostsForCategory, selectCategory }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {pure: false})(Mainview));

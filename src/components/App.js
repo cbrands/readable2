@@ -6,7 +6,6 @@ import '../styles/app.css';
 class App extends Component {
 
     render() {
-        console.log('appstate', this.state);
         return (
             <div className="app container">
                 <header className="col-md-12 text-center">
@@ -15,7 +14,6 @@ class App extends Component {
                 <Switch>
                     <Route path='/:category' component={Mainview}  />
                     <Route path="/" component={Mainview}  />
-
                 </Switch>
             </div>
         )

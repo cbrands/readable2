@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
-import { NavLink, Link} from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { selectCategory } from "../actions/index";
 
 class CategoryListItem extends Component {
     clicked() {
-        console.log("I am clicked", this.props.category.path);
-        console.log('props', this.props);
+        this.props.selectCategory(this.props.category.path);
+        this.props.fetchPostsForCategory(this.props.selectedCategory);
     }
     render() {
         return (
-            <li className="list-group-item" key={this.props.category.name}>
-                {/*<NavLink to={`/${this.props.category.path}`} onClick={this.clicked()}>*/}
-                    {/*{this.props.category.name}*/}
-                {/*</NavLink>*/}
-                <Link to={{
-                    pathname: `/${this.props.category.path}`,
-                    state: { fromDashboard: true }
-                }} onClick={this.clicked()}>{this.props.category.name}</Link>
+            <li className="list-group-item" key={this.props.category.name} >
+                <NavLink to={`/${this.props.category.path}`} onClick={() => this.clicked()}>
+                    {this.props.category.name}
+                </NavLink>
             </li>
         );
     }
 }
 
-export default CategoryListItem;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        selectCategory: (data) => dispatch(selectCategory(data))
+    }
+}
+
+//export default connect(null, mapDispatchToProps)(CategoryListItem);
+export default withRouter(connect(null, mapDispatchToProps, null, {pure: false})(CategoryListItem));
