@@ -16,7 +16,7 @@ const CommentListItem = ({comment}) => {
             <div className="vote-buttons">
                 <button className="btn btn-primary margin-right10"><i className="fa fa-thumbs-down" aria-hidden="true"></i></button>
                 <button className="btn btn-primary margin-right10"><i className="fa fa-thumbs-up" aria-hidden="true"></i></button>
-                <span>{post.voteScore}</span>
+                {/*<span>{post.voteScore}</span>*/}
             </div>
         </li>
     );

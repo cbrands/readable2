@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchPost } from "../actions/index";
+import { bindActionCreators } from "redux";
+import { fetchPost, fetchComments } from "../actions/index";
 
 class PostListItem extends Component {
     clicked(id) {
         this.props.fetchPost(id);
+        this.props.fetchComments(id);
     }
 
     render() {
@@ -36,10 +38,8 @@ class PostListItem extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        fetchPost: (data) => dispatch(fetchPost(data))
-    }
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ fetchPost, fetchComments }, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(PostListItem);

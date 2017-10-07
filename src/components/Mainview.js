@@ -13,14 +13,6 @@ class Mainview extends Component {
         this.getPosts();
     }
 
-    isEmpty = (obj) => {
-        for(var key in obj) {
-            if(obj.hasOwnProperty(key))
-                return false;
-        }
-        return true;
-    }
-
     getPosts = () => {
         const pathName = this.props.location.pathname;
         if (pathName === "/") {
@@ -38,8 +30,6 @@ class Mainview extends Component {
     }
 
     render() {
-        console.log("THERE");
-        console.log(this.props);
         return (
             <div>
                 <aside className="col-md-4 col-xs-12">

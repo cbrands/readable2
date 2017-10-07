@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import CommentList from './CommentList';
 import { bindActionCreators } from "redux";
 //import { fetchPost } from "../actions/index";
 
 class Postview extends Component {
-    // componentDidMount() {
-    //     //this.props.fetchPost();
-    // }
 
     render() {
         const myPost = Object.values(this.props.post)[0];
@@ -37,6 +35,18 @@ class Postview extends Component {
                     <Link to={`/`} className="col-md-12">
                         <i className="fa fa-home" aria-hidden="true"></i>
                     </Link>
+                    <div className="col-md-12">
+                        <div className="margin-bottom10">
+                            <h2 className="text-center">Comments</h2>
+                            <button className="btn btn-primary margin-right10">
+                                New Comment <i className="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                            <button className="btn btn-primary">
+                                Sort by <i className="fa fa-sort" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <CommentList/>
+                    </div>
                 </div>
             );
         }
