@@ -44,7 +44,7 @@ class Mainview extends Component {
                     <div className="margin-bottom10">
                         <h2 className="text-center">Posts</h2>
                         {myPath !== "/" &&
-                            <Link to={'/newpost'} className="btn btn-primary margin-right10">
+                            <Link to={`/${this.props.selectedCategory}/new`} className="btn btn-primary margin-right10">
                                 New Post <i className="fa fa-plus" aria-hidden="true"></i>
                             </Link>
                         }

@@ -15,6 +15,7 @@ class PostListItem extends Component {
     }
 
     render() {
+        console.log('postlistprops', this.props.post);
         return(
             <li className="list-group-item clearfix" key={this.props.post.id}>
                 <div className="margin-bottom10">
@@ -27,7 +28,7 @@ class PostListItem extends Component {
                     {this.props.post.author}
                 </div>
                 <div className="edit-buttons">
-                    <button className="btn btn-primary margin-right10"><i className="fa fa-pencil" aria-hidden="true"></i></button>
+                    <Link to={`/${this.props.post.category}/${this.props.post.id}/edit`} className="btn btn-primary margin-right10"><i className="fa fa-pencil" aria-hidden="true"></i></Link>
                     <button className="btn btn-danger"><i className="fa fa-trash-o" aria-hidden="true"></i></button>
                     <span className="comments"><i className="fa fa-comments" aria-hidden="true"></i><span className="comments-distance">12</span></span>
                 </div>

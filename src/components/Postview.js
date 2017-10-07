@@ -23,7 +23,7 @@ class Postview extends Component {
                         <div>{myPost.body}</div>
                         <div className="margin-bottom10">{myPost.author}</div>
                         <div className="edit-buttons">
-                            <button className="btn btn-primary margin-right10"><i className="fa fa-pencil" aria-hidden="true"></i></button>
+                            <Link to={`/${myPost.category}/${myPost.id}/edit`} className="btn btn-primary margin-right10"><i className="fa fa-pencil" aria-hidden="true"></i></Link>
                             <button className="btn btn-danger"><i className="fa fa-trash-o" aria-hidden="true"></i></button>
                         </div>
                         <div className="vote-buttons">
