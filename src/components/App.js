@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Mainview from './Mainview';
+import Postview from './Postview';
 import '../styles/app.css';
 
 class App extends Component {
@@ -12,6 +13,7 @@ class App extends Component {
                     <h1>Readable 2</h1>
                 </header>
                 <Switch>
+                    <Route path='/:category/:id' component={Postview}  />
                     <Route path='/:category' component={Mainview}  />
                     <Route path="/" component={Mainview}  />
                 </Switch>

@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { SELECT_CATEGORY } from "../actions";
 
 export default function(state = {}, action) {
