@@ -5,6 +5,10 @@ import { bindActionCreators } from "redux";
 import { fetchPost, fetchComments } from "../actions/index";
 
 class PostListItem extends Component {
+    componentDidMount() {
+        //const comments
+    }
+
     clicked(id) {
         this.props.fetchPost(id);
         this.props.fetchComments(id);

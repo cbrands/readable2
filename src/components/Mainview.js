@@ -30,6 +30,7 @@ class Mainview extends Component {
     }
 
     render() {
+        const myPath = this.props.location.pathname;
         return (
             <div>
                 <aside className="col-md-4 col-xs-12">
@@ -42,9 +43,11 @@ class Mainview extends Component {
                 <section className="col-md-8 col-xs-12">
                     <div className="margin-bottom10">
                         <h2 className="text-center">Posts</h2>
-                        <button className="btn btn-primary margin-right10">
-                            New Post <i className="fa fa-plus" aria-hidden="true"></i>
-                        </button>
+                        {myPath !== "/" &&
+                            <Link to={'/newpost'} className="btn btn-primary margin-right10">
+                                New Post <i className="fa fa-plus" aria-hidden="true"></i>
+                            </Link>
+                        }
                         <button className="btn btn-primary">
                             Sort by <i className="fa fa-sort" aria-hidden="true"></i>
                         </button>
