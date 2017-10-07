@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, withRouter } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { selectCategory } from "../actions/index";
 
@@ -25,5 +25,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-//export default connect(null, mapDispatchToProps)(CategoryListItem);
-export default withRouter(connect(null, mapDispatchToProps, null, {pure: false})(CategoryListItem));
+export default connect(null, mapDispatchToProps)(CategoryListItem);

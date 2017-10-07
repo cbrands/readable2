@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { fetchCategories, fetchPosts, fetchPostsForCategory, selectCategory } from "../actions/index";
 import PostList from './PostList';
 import CategoryList from "./CategoryList";
@@ -35,17 +35,6 @@ class Mainview extends Component {
         } else {
             this.props.fetchPostsForCategory(this.props.selectedCategory);
         }
-    }
-
-    componentWillUpdate() {
-        console.log("HEY");
-        console.log(this.props);
-        //this.getPosts();
-    }
-
-    componentDidUpdate() {
-        console.log("HEYHEY");
-        console.log(this.props);
     }
 
     homeClicked = () => {
@@ -88,4 +77,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({ fetchCategories, fetchPosts, fetchPostsForCategory, selectCategory }, dispatch);
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {pure: false})(Mainview));
+export default connect(mapStateToProps, mapDispatchToProps)(Mainview);
