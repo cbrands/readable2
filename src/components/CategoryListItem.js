@@ -8,6 +8,7 @@ class CategoryListItem extends Component {
         this.props.selectCategory(this.props.category.path);
         this.props.fetchPostsForCategory(this.props.selectedCategory);
     }
+
     render() {
         return (
             <li className="list-group-item" key={this.props.category.name} >
