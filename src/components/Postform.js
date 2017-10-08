@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { newPost, editPost } from "../actions/index";
 import generateUUID from '../utils/UuidGenerator';
 import isEmpty from '../utils/EmptyCheck';
-import {selectCategory} from "../actions/index";
 
 class Postform extends Component {
     constructor(props) {
@@ -11,7 +12,8 @@ class Postform extends Component {
         this.state = {
             titleValue: '',
             bodyValue: '',
-            authorValue: ''
+            authorValue: '',
+            redirect: false
         }
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -82,13 +84,18 @@ class Postform extends Component {
         myPost.title = this.state.titleValue;
         myPost.body = this.state.bodyValue;
         myPost.author = this.state.authorValue;
-        //todo submit form
-        alert('WOOOOOOOOO');
+        if (this.state.isNew) {
+            this.props.newPost(myPost);
+        } else {
+            this.props.editPost(myPost);
+        }
+        this.setState({ redirect: true });
     }
 
     render(){
         return(
             <div className="container">
+                {this.state.redirect && <Redirect to={'/'} />}
                 <div className="col-md-12 text-center">
                     {this.state.isNew ? <h3>New post</h3> : <h3>Edit post</h3>}
                 </div>
@@ -125,4 +132,8 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(Postform);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ newPost, editPost }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Postform);
