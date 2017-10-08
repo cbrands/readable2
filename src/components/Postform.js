@@ -1,8 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import generateUUID from '../utils/UuidGenerator';
+import {selectCategory} from "../actions/index";
 
 class Postform extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            titleValue: '',
+            bodyValue: '',
+            authorValue: ''
+        }
+
+        this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleBodyChange = this.handleBodyChange.bind(this);
+        this.handleAuthorChange = this.handleAuthorChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
     componentWillMount() {
         let isNew;
         if (this.props.location.pathname.substr(-3, 3) === 'new') {
@@ -31,26 +47,49 @@ class Postform extends Component {
         }
     }
 
+    handleTitleChange(event) {
+        this.setState({titleValue: event.target.value});
+    }
+
+    handleBodyChange(event) {
+        this.setState({bodyValue: event.target.value});
+    }
+
+    handleAuthorChange(event) {
+        this.setState({authorValue: event.target.value});
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        //todo submit form
+        alert('WOOOOOOOOO');
+    }
+
     render(){
         console.log('postformprops', this.props);
         let myPost = this.completePost();
+        console.log('myPost', myPost);
         return(
             <div className="container">
                 <div className="col-md-12 text-center">
-                    <h3>Edit post</h3>
+                    {this.state.isNew ? <h3>New post</h3> : <h3>Edit post</h3>}
                 </div>
-                <form className="col-md-12">
+                <form className="col-md-12" onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label>Title</label>
-                        <input type="text" name="title" className="form-control" value="Lorem ipsum dolor" />
+                        <label>Title</label><br/>
+                        <input type="text" value={this.state.titleValue} onChange={this.handleTitleChange} />
                     </div>
                     <div className="form-group">
                         <label>Post text</label>
-                        <textarea name="body" className="form-control" rows="8">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.
-                        </textarea>
+                        <textarea className="form-control" rows="8" value={this.state.bodyValue} onChange={this.handleBodyChange}/>
                     </div>
-                    <button className="btn btn-primary">Cancel</button>
-                    <button className="btn btn-primary">Save</button>
+                    <div className="form-group">
+                        <label>Author</label><br/>
+                        <input type="text" value={this.state.authorValue} onChange={this.handleAuthorChange} />
+                    </div>
+                    <Link to={"/"} className="btn btn-primary margin-right10">Cancel</Link>
+                    {/*<button className="btn btn-primary">Save</button>*/}
+                    <input className="btn btn-primary" type="submit" value="Save" />
                 </form>
             </div>
         );
