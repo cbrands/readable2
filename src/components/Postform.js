@@ -1,9 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import generateUUID from '../utils/UuidGenerator';
 
 class Postform extends Component {
+    componentWillMount() {
+        let isNew;
+        if (this.props.location.pathname.substr(-3, 3) === 'new') {
+            isNew = true;
+        } else {
+            isNew = false;
+        }
+        this.setState({ isNew });
+        console.log('postform', isNew);
+    }
+
+    completePost() {
+        if (this.state.isNew) {
+            let newPost = {};
+            newPost.id = generateUUID();
+            newPost.deleted = false;
+            newPost. voteScore = 0;
+            newPost.title = "";
+            newPost.body = "";
+            newPost.author = "";
+            newPost.timestamp = Date.now();
+            newPost.category = this.props.selectedCategory;
+            return newPost;
+        } else {
+            return this.props.post;
+        }
+    }
+
     render(){
         console.log('postformprops', this.props);
+        let myPost = this.completePost();
         return(
             <div className="container">
                 <div className="col-md-12 text-center">
@@ -30,6 +60,7 @@ class Postform extends Component {
 function mapStateToProps(state) {
     return {
         post: state.post,
+        comments: state.comments,
         selectedCategory: state.selectedCategory
     };
 }
