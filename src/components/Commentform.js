@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { bindActionCreators } from "redux";
-import { newPost, editPost } from "../actions/index";
+import { newComment, editComment } from "../actions/index";
 import generateUUID from '../utils/UuidGenerator';
 import isEmpty from '../utils/EmptyCheck';
 
@@ -10,13 +10,11 @@ class Postform extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            titleValue: '',
             bodyValue: '',
             authorValue: '',
             redirect: false
         }
 
-        this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleBodyChange = this.handleBodyChange.bind(this);
         this.handleAuthorChange = this.handleAuthorChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,36 +31,33 @@ class Postform extends Component {
     }
 
     componentDidUpdate() {
-        if(!isEmpty(this.props.post)) {
-            if(this.state.titleValue === ''){
-                let myPost = Object.values(this.props.post)[0];
-                this.setState({titleValue: myPost.title});
-            }
+        if(!isEmpty(this.props.comment)) {
             if(this.state.bodyValue === ''){
-                let myPost = Object.values(this.props.post)[0];
-                this.setState({bodyValue: myPost.body});
+                let myComment = Object.values(this.props.comment)[0];
+                this.setState({bodyValue: myComment.body});
             }
             if(this.state.authorValue === ''){
-                let myPost = Object.values(this.props.post)[0];
-                this.setState({authorValue: myPost.author});
+                let myComment = Object.values(this.props.comment)[0];
+                this.setState({authorValue: myComment.author});
             }
         }
     }
 
-    completePost() {
+    completeComment() {
         if (this.state.isNew) {
-            let newPost = {};
-            newPost.id = generateUUID();
-            newPost.deleted = false;
-            newPost. voteScore = 0;
-            newPost.title = "";
-            newPost.body = "";
-            newPost.author = "";
-            newPost.timestamp = Date.now();
-            newPost.category = this.props.selectedCategory;
-            return newPost;
+            let myPost = Object.values(this.props.post)[0];
+            let newComment = {};
+            newComment.id = generateUUID();
+            newComment.deleted = false;
+            newComment. voteScore = 0;
+            newComment.body = "";
+            newComment.author = "";
+            newComment.timestamp = Date.now();
+            newComment.parentId = myPost.id;
+            newComment.parentDeleted = false;
+            return newComment;
         } else {
-            return Object.values(this.props.post)[0];
+            return Object.values(this.props.comment)[0];
         }
     }
 
@@ -80,35 +75,30 @@ class Postform extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        let myPost = this.completePost();
-        myPost.title = this.state.titleValue;
-        myPost.body = this.state.bodyValue;
-        myPost.author = this.state.authorValue;
+        let myComment = this.completeComment();
+        myComment.body = this.state.bodyValue;
+        myComment.author = this.state.authorValue;
         if (this.state.isNew) {
-            this.props.newPost(myPost);
+            this.props.newComment(myComment);
         } else {
-            this.props.editPost(myPost);
+            this.props.editComment(myComment);
         }
         this.setState({ redirect: true });
     }
 
     render(){
+        console.log("commentform", this.props);
         return(
             <div className="container">
                 {this.state.redirect && <Redirect to={'/'} />}
                 <div className="col-md-12 text-center">
-                    {this.state.isNew ? <h3>New post</h3> : <h3>Edit post</h3>}
+                    {this.state.isNew ? <h3>New comment</h3> : <h3>Edit comment</h3>}
                 </div>
                 <form className="col-md-12" onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label>Title</label><br/>
-                        <input type="text" value={this.state.titleValue} size="95"
-                               onChange={this.handleTitleChange} placeholder="title" />
-                    </div>
-                    <div className="form-group">
-                        <label>Post text</label>
+                        <label>Comment text</label>
                         <textarea className="form-control" rows="8" value={this.state.bodyValue} cols="95"
-                                  onChange={this.handleBodyChange} placeholder="message"/>
+                                  onChange={this.handleBodyChange} placeholder="comment"/>
                     </div>
                     <div className="form-group">
                         <label>Author</label><br/>
@@ -118,7 +108,6 @@ class Postform extends Component {
                     <Link to={"/"} className="btn btn-primary margin-right10">Cancel</Link>
                     <input className="btn btn-primary" type="submit" value="Save" />
                 </form>
-
             </div>
         );
     }
@@ -127,13 +116,12 @@ class Postform extends Component {
 function mapStateToProps(state) {
     return {
         post: state.post,
-        comments: state.comments,
-        selectedCategory: state.selectedCategory
+        comment: state.comment
     };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ newPost, editPost }, dispatch);
+    return bindActionCreators({ newComment, editComment }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Postform);

@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import Mainview from './Mainview';
 import Postview from './Postview';
 import Postform from './Postform';
+import Commentform from './Commentform';
 import '../styles/app.css';
 
 class App extends Component {
@@ -14,6 +15,8 @@ class App extends Component {
                     <h1>Readable 2</h1>
                 </header>
                 <Switch>
+                    <Route path='/comments/new' component={Commentform} />
+                    <Route path='/comments/:id/edit' component={Commentform} />
                     <Route path='/:category/new' component={Postform} />
                     <Route path='/:category/:id/edit' component={Postform} />
                     <Route path='/:category/:id' component={Postview}  />

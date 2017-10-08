@@ -5,9 +5,6 @@ import { bindActionCreators } from "redux";
 import { fetchPost, fetchComments } from "../actions/index";
 
 class PostListItem extends Component {
-    componentDidMount() {
-        //const comments
-    }
 
     clicked(id) {
         this.props.fetchPost(id);
@@ -15,7 +12,6 @@ class PostListItem extends Component {
     }
 
     render() {
-        console.log('postlistprops', this.props.post);
         return(
             <li className="list-group-item clearfix" key={this.props.post.id}>
                 <div className="margin-bottom10">
