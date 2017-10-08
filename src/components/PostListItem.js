@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchPost, fetchComments } from "../actions/index";
+import { fetchPost, fetchComments, voteOnPost } from "../actions/index";
 
 class PostListItem extends Component {
 
     clicked(id) {
         this.props.fetchPost(id);
         this.props.fetchComments(id);
+    }
+
+    voted(option) {
+        this.props.voteOnPost(this.props.post, option);
+        //this.props.fetchComments(this.props.comment.parentId);
     }
 
     render() {
@@ -32,8 +37,12 @@ class PostListItem extends Component {
                 </div>
 
                 <div className="vote-buttons">
-                    <button className="btn btn-primary margin-right10"><i className="fa fa-thumbs-down" aria-hidden="true"></i></button>
-                    <button className="btn btn-primary margin-right10"><i className="fa fa-thumbs-up" aria-hidden="true"></i></button>
+                    <button className="btn btn-primary margin-right10" onClick={() => this.voted('downVote')}>
+                        <i className="fa fa-thumbs-down" aria-hidden="true"></i>
+                    </button>
+                    <button className="btn btn-primary margin-right10" onClick={() => this.voted('upVote')}>
+                        <i className="fa fa-thumbs-up" aria-hidden="true"></i>
+                    </button>
                     <span>{this.props.post.voteScore}</span>
                 </div>
             </li>
@@ -42,7 +51,7 @@ class PostListItem extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchPost, fetchComments }, dispatch);
+    return bindActionCreators({ fetchPost, fetchComments, voteOnPost }, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(PostListItem);

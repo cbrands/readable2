@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import CommentList from './CommentList';
-//import { bindActionCreators } from "redux";
-//import { fetchPost } from "../actions/index";
+import { bindActionCreators } from "redux";
+import { voteOnPost } from "../actions/index";
 
 class Postview extends Component {
+
+    voted(post, option) {
+        this.props.voteOnPost(post, option);
+        //this.props.fetchComments(this.props.comment.parentId);
+    }
 
     render() {
         const myPost = Object.values(this.props.post)[0];
@@ -26,9 +31,13 @@ class Postview extends Component {
                             <button className="btn btn-danger"><i className="fa fa-trash-o" aria-hidden="true"></i></button>
                         </div>
                         <div className="vote-buttons">
-                            <button className="btn btn-primary margin-right10"><i className="fa fa-thumbs-down" aria-hidden="true"></i></button>
-                            <button className="btn btn-primary margin-right10"><i className="fa fa-thumbs-up" aria-hidden="true"></i></button>
-                            <span>12</span>
+                            <button className="btn btn-primary margin-right10" onClick={() => this.voted(myPost, 'downVote')}>
+                                <i className="fa fa-thumbs-down" aria-hidden="true"></i>
+                            </button>
+                            <button className="btn btn-primary margin-right10" onClick={() => this.voted(myPost, 'upVote')}>
+                                <i className="fa fa-thumbs-up" aria-hidden="true"></i>
+                            </button>
+                            <span>{myPost.voteScore}</span>
                         </div>
                     </div>
                     <Link to={`/`} className="col-md-12">
@@ -60,8 +69,8 @@ function mapStateToProps(state) {
     };
 }
 
-// function mapDispatchToProps(dispatch) {
-//     return bindActionCreators({ fetchPost }, dispatch);
-// }
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ voteOnPost }, dispatch);
+}
 
-export default connect(mapStateToProps, null)(Postview);
+export default connect(mapStateToProps, mapDispatchToProps)(Postview);
