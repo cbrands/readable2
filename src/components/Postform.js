@@ -43,7 +43,7 @@ class Postform extends Component {
             newPost.category = this.props.selectedCategory;
             return newPost;
         } else {
-            return this.props.post;
+            return Object.values(this.props.post)[0];
         }
     }
 
@@ -69,28 +69,34 @@ class Postform extends Component {
         console.log('postformprops', this.props);
         let myPost = this.completePost();
         console.log('myPost', myPost);
+        //console.log('title', myPost.title);
         return(
             <div className="container">
                 <div className="col-md-12 text-center">
                     {this.state.isNew ? <h3>New post</h3> : <h3>Edit post</h3>}
                 </div>
+                {myPost &&
                 <form className="col-md-12" onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label>Title</label><br/>
-                        <input type="text" value={this.state.titleValue} onChange={this.handleTitleChange} />
+                        <input type="text" value={this.state.titleValue}
+                               onChange={this.handleTitleChange} placeholder={myPost.title} />
                     </div>
                     <div className="form-group">
                         <label>Post text</label>
-                        <textarea className="form-control" rows="8" value={this.state.bodyValue} onChange={this.handleBodyChange}/>
+                        <textarea className="form-control" rows="8" value={this.state.bodyValue}
+                                  onChange={this.handleBodyChange} placeholder={myPost.body}/>
                     </div>
                     <div className="form-group">
                         <label>Author</label><br/>
-                        <input type="text" value={this.state.authorValue} onChange={this.handleAuthorChange} />
+                        <input type="text" value={this.state.authorValue}
+                               onChange={this.handleAuthorChange} placeholder={myPost.author}/>
                     </div>
                     <Link to={"/"} className="btn btn-primary margin-right10">Cancel</Link>
-                    {/*<button className="btn btn-primary">Save</button>*/}
                     <input className="btn btn-primary" type="submit" value="Save" />
                 </form>
+                }
+
             </div>
         );
     }
