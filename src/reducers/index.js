@@ -5,6 +5,8 @@ import SelectedCategory from "./reducer_selected_category";
 import PostReducer from "./reducer_post";
 import CommentsReducer from "./reducer_comments";
 import CommentReducer from "./reducer_comment";
+import PostSortReducer from'./reducer_post_sort';
+import CommentSortReducer from'./reducer_comment_sort';
 
 const rootReducer = combineReducers({
     posts: PostsReducer,
@@ -12,7 +14,9 @@ const rootReducer = combineReducers({
     selectedCategory: SelectedCategory,
     post: PostReducer,
     comments: CommentsReducer,
-    comment: CommentReducer
+    comment: CommentReducer,
+    postSort: PostSortReducer,
+    commentSort: CommentSortReducer
 });
 
 export default rootReducer;

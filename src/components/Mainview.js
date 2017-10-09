@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
-import { fetchCategories, fetchPosts, fetchPostsForCategory, selectCategory } from "../actions/index";
+import { fetchCategories, fetchPosts, fetchPostsForCategory, selectCategory, setPostSort } from "../actions/index";
 import PostList from './PostList';
 import CategoryList from "./CategoryList";
 import '../styles/app.css';
@@ -11,6 +11,7 @@ class Mainview extends Component {
     componentDidMount() {
         this.props.fetchCategories();
         this.getPosts();
+        this.handleSortChange = this.handleSortChange.bind(this);
     }
 
     getPosts = () => {
@@ -29,7 +30,12 @@ class Mainview extends Component {
         this.props.fetchPosts();
     }
 
+    handleSortChange(event) {
+        this.props.setPostSort(event.target.value);
+    }
+
     render() {
+        console.log('mainviewprops', this.props);
         const myPath = this.props.location.pathname;
         return (
             <div>
@@ -48,9 +54,13 @@ class Mainview extends Component {
                                 New Post <i className="fa fa-plus" aria-hidden="true"></i>
                             </Link>
                         }
-                        <button className="btn btn-primary">
-                            Sort by <i className="fa fa-sort" aria-hidden="true"></i>
-                        </button>
+                        <label className="btn btn-primary">
+                            Sort option:
+                            <select className="btn btn-primary" value={this.props.postSort} onChange={this.handleSortChange}>
+                                <option value="date">Sort by date</option>
+                                <option value="score">Sort by score</option>
+                            </select>
+                        </label>
                     </div>
                     <PostList/>
                 </section>
@@ -65,12 +75,13 @@ function mapStateToProps(state) {
     return {
         categories: state.categories,
         posts: state.posts,
-        selectedCategory: state.selectedCategory
+        selectedCategory: state.selectedCategory,
+        postSort: state.postSort
     };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchCategories, fetchPosts, fetchPostsForCategory, selectCategory }, dispatch);
+    return bindActionCreators({ fetchCategories, fetchPosts, fetchPostsForCategory, selectCategory, setPostSort }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Mainview);

@@ -3,13 +3,20 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import CommentList from './CommentList';
 import { bindActionCreators } from "redux";
-import { voteOnPost } from "../actions/index";
+import { voteOnPost, setCommentSort  } from "../actions/index";
 
 class Postview extends Component {
+    componentDidMount() {
+        this.handleSortChange = this.handleSortChange.bind(this);
+    }
 
     voted(post, option) {
         this.props.voteOnPost(post, option);
         //this.props.fetchComments(this.props.comment.parentId);
+    }
+
+    handleSortChange(event) {
+        this.props.setCommentSort(event.target.value);
     }
 
     render() {
@@ -49,9 +56,13 @@ class Postview extends Component {
                             <Link to={'/comments/new'} className="btn btn-primary margin-right10">
                                 New Comment <i className="fa fa-plus" aria-hidden="true"></i>
                             </Link>
-                            <button className="btn btn-primary">
-                                Sort by <i className="fa fa-sort" aria-hidden="true"></i>
-                            </button>
+                            <label className="btn btn-primary">
+                                Sort option:
+                                <select className="btn btn-primary" value={this.props.commentSort} onChange={this.handleSortChange}>
+                                    <option value="date">Sort by date</option>
+                                    <option value="score">Sort by score</option>
+                                </select>
+                            </label>
                         </div>
                         <CommentList/>
                     </div>
@@ -65,12 +76,13 @@ class Postview extends Component {
 function mapStateToProps(state) {
     return {
         post: state.post,
-        selectedCategory: state.selectedCategory
+        selectedCategory: state.selectedCategory,
+        commentSort: state.commentSort
     };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ voteOnPost }, dispatch);
+    return bindActionCreators({ voteOnPost, setCommentSort }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Postview);

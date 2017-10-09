@@ -16,6 +16,8 @@ export const NEW_COMMENT = "new_comment";
 export const EDIT_COMMENT = "edit_comment";
 export const VOTE_ON_POST = "vote_on_post";
 export const VOTE_ON_COMMENT = "vote_on_comment";
+export const POST_SORT = "post_sort";
+export const COMMENT_SORT = "comment_sort";
 
 export function selectCategory(category) {
     return {
@@ -120,4 +122,18 @@ export function voteOnComment(comment, option) {
         type: VOTE_ON_COMMENT,
         payload: request
     };
+}
+
+export function setPostSort(option) {
+    return {
+        type: POST_SORT,
+        payload: option
+    }
+}
+
+export function setCommentSort(option) {
+    return {
+        type: COMMENT_SORT,
+        payload: option
+    }
 }
