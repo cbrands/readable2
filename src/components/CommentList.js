@@ -2,21 +2,32 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import _ from "lodash";
 import CommentListItem from './CommentListItem';
+import sortBy from 'sort-by';
 
 class CommentList extends Component {
-    comments = (props) => {
-        let commentArray = Object.values(props);
-        return _.map(commentArray, myComments => {
-            return _.map(myComments, comment => {
-                return (<CommentListItem key={comment.id} comment={comment}/>);
+    comments = () => {
+        let commentArray = Object.values(this.props.comments)
+            .filter(comment => !comment.deleted)
+            .sort((a, b) => {
+                switch (this.props.commentSort) {
+                    case 'score':
+                        return a.voteScore - b.voteScore
+                    case 'date':
+                        return a.timestamp - b.timestamp
+                    default:
+                        return a.timestamp - b.timestamp
+                }
             });
+        return _.map(commentArray, comment => {
+            console.log('type2', typeof comment);
+            return (<CommentListItem key={comment.id} comment={comment}/>);
         });
     }
 
-        render() {
+    render() {
         return (
             <ul className="list-group">
-                {this.comments(this.props)}
+                {this.comments()}
             </ul>
         );
     }
@@ -24,7 +35,8 @@ class CommentList extends Component {
 
 function mapStateToProps(state) {
     return {
-        comments: state.comments
+        comments: state.comments,
+        commentSort: state.commentSort
     };
 }
 

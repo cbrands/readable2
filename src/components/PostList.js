@@ -8,7 +8,9 @@ class PostList extends Component {
     posts = (props) => {
         let postsArray = Object.values(props);
         return _.map(postsArray, myPosts => {
+            console.log('postlist', Object.values(myPosts));
             return _.map(myPosts, post => {
+                console.log('post', post)
                 return (<PostListItem key={post.id} post={post}/>);
             });
         });
@@ -25,7 +27,8 @@ class PostList extends Component {
 
 function mapStateToProps(state) {
     return {
-        posts: state.posts
+        posts: state.posts,
+        postSort: state.postSort
     };
 }
 
