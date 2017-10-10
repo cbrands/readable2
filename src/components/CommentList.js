@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import _ from "lodash";
 import CommentListItem from './CommentListItem';
-import sortBy from 'sort-by';
 
 class CommentList extends Component {
     comments = () => {
@@ -19,7 +18,6 @@ class CommentList extends Component {
                 }
             });
         return _.map(commentArray, comment => {
-            console.log('type2', typeof comment);
             return (<CommentListItem key={comment.id} comment={comment}/>);
         });
     }

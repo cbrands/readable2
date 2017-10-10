@@ -35,7 +35,6 @@ class Mainview extends Component {
     }
 
     render() {
-        console.log('mainviewprops', this.props);
         const myPath = this.props.location.pathname;
         return (
             <div>

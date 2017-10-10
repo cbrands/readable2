@@ -9,7 +9,3 @@ export default function(state = {}, action) {
             return state;
     }
 }
-
-function sanetize(data) {
-    return Object.values(data);
-}

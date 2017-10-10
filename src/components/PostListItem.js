@@ -17,6 +17,7 @@ class PostListItem extends Component {
     }
 
     render() {
+        console.log('postlistitem', this.props.post);
         return(
             <li className="list-group-item clearfix" key={this.props.post.id}>
                 <div className="margin-bottom10">

@@ -5,21 +5,29 @@ import PostListItem from './PostListItem';
 
 class PostList extends Component {
 
-    posts = (props) => {
-        let postsArray = Object.values(props);
-        return _.map(postsArray, myPosts => {
-            console.log('postlist', Object.values(myPosts));
-            return _.map(myPosts, post => {
-                console.log('post', post)
-                return (<PostListItem key={post.id} post={post}/>);
+    posts = () => {
+        let postsArray = Object.values(this.props.posts)
+            .filter(comment => !comment.deleted)
+            .sort((a, b) => {
+                switch (this.props.postSort) {
+                    case 'score':
+                        return a.voteScore - b.voteScore
+                    case 'date':
+                        return a.timestamp - b.timestamp
+                    default:
+                        return a.timestamp - b.timestamp
+                }
             });
+        return _.map(postsArray, post => {
+            console.log('post', post)
+            return (<PostListItem key={post.id} post={post}/>);
         });
     }
 
     render() {
         return(
             <ul className="list-group">
-                {this.posts(this.props)}
+                {this.posts()}
             </ul>
         )
     }
