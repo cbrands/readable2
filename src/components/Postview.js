@@ -12,7 +12,6 @@ class Postview extends Component {
 
     voted(post, option) {
         this.props.voteOnPost(post, option);
-        //this.props.fetchComments(this.props.comment.parentId);
     }
 
     handleSortChange(event) {

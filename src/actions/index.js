@@ -18,6 +18,7 @@ export const VOTE_ON_POST = "vote_on_post";
 export const VOTE_ON_COMMENT = "vote_on_comment";
 export const POST_SORT = "post_sort";
 export const COMMENT_SORT = "comment_sort";
+export const DELETE_COMMENT = "delete_comment";
 
 export function selectCategory(category) {
     return {
@@ -136,4 +137,12 @@ export function setCommentSort(option) {
         type: COMMENT_SORT,
         payload: option
     }
+}
+
+export function deleteComment(id) {
+    const request = axios.delete(`${api}/comments/${id}`, getHeaders());
+    return {
+        type: DELETE_COMMENT,
+        payload: request
+    };
 }
