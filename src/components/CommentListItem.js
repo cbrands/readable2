@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Link, Router } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { fetchComment, voteOnComment, fetchComments, deleteComment } from "../actions/index";
 
 class CommentListItem extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            redirect: false
+        }
+    }
+
     clicked(id) {
         this.props.fetchComment(id);
     }
@@ -17,12 +24,15 @@ class CommentListItem extends Component {
     deleteComment() {
         this.props.deleteComment(this.props.comment.id);
         this.props.fetchComments(this.props.comment.parentId);
+        Router.dispatch(location.getCurrentPath(), null);
     }
 
     render() {
-        console.log('commenting', this.props.com);
+        console.log('commenting', this.props);
+        let parentPost = Object.values(this.props.post)[0];
         return(
             <li className="list-group-item clearfix" key={this.props.comment.id}>
+
                 <div className="margin-bottom10">
                     {this.props.comment.author}
                     <br/>
@@ -49,8 +59,15 @@ class CommentListItem extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        post: state.post,
+        selectedCategory: state.selectedCategory
+    };
+}
+
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ fetchComment, voteOnComment, fetchComments, deleteComment }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(CommentListItem);
+export default connect(mapStateToProps, mapDispatchToProps)(CommentListItem);
