@@ -3,8 +3,15 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { fetchPost, fetchComments, voteOnPost } from "../actions/index";
+import axios from 'axios';
+import {api} from '../utils/Constants';
+import { getHeaders } from '../utils/AuthorizationHelper';
 
 class PostListItem extends Component {
+
+    componentWillMount() {
+        this.setState({ commentcounter: 0 })
+    }
 
     clicked(id) {
         this.props.fetchPost(id);
@@ -18,11 +25,16 @@ class PostListItem extends Component {
 
     commentsCounter(postId){
         console.log('The postid = ', postId);
-        return 121;
+        axios.get(`${api}/posts/${postId}/comments`, getHeaders()).then((response) =>  {
+            //console.log('The comments', response.data.length);
+            if(this.state.commentcounter !== response.data.length) {
+                this.setState({commentcounter: response.data.length});
+            }
+        });
     }
 
     render() {
-        console.log('postlistitem', this.props.post);
+        this.commentsCounter(this.props.post.id)
         return(
             <li className="list-group-item clearfix" key={this.props.post.id}>
                 <div className="margin-bottom10">
@@ -41,7 +53,7 @@ class PostListItem extends Component {
                     <button className="btn btn-danger"><i className="fa fa-trash-o" aria-hidden="true"></i></button>
                     <span className="comments">
                         <i className="fa fa-comments" aria-hidden="true"></i>
-                        <span className="comments-distance">{this.commentsCounter(this.props.post.id)}</span>
+                        <span className="comments-distance">{this.state.commentcounter}</span>
                     </span>
                 </div>
 
