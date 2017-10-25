@@ -16,6 +16,11 @@ class PostListItem extends Component {
         //this.props.fetchComments(this.props.comment.parentId);
     }
 
+    commentsCounter(postId){
+        console.log('The postid = ', postId);
+        return 121;
+    }
+
     render() {
         console.log('postlistitem', this.props.post);
         return(
@@ -34,7 +39,10 @@ class PostListItem extends Component {
                         <i className="fa fa-pencil" aria-hidden="true"></i>
                     </Link>
                     <button className="btn btn-danger"><i className="fa fa-trash-o" aria-hidden="true"></i></button>
-                    <span className="comments"><i className="fa fa-comments" aria-hidden="true"></i><span className="comments-distance">12</span></span>
+                    <span className="comments">
+                        <i className="fa fa-comments" aria-hidden="true"></i>
+                        <span className="comments-distance">{this.commentsCounter(this.props.post.id)}</span>
+                    </span>
                 </div>
 
                 <div className="vote-buttons">

@@ -1,4 +1,3 @@
-import _ from "lodash";
 import {FETCH_POSTS_FOR_CATEGORY, FETCH_POSTS} from "../actions/index";
 
 export default function(state = {}, action) {

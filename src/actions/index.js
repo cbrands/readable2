@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getHeaders } from '../utils/AuthorizationHelper';
 
-const api = "http://localhost:5001";
+const api = "http://localhost:3001";
 
 export const FETCH_CATEGORIES = "fetch_categories";
 export const FETCH_POSTS = "fetch_posts";

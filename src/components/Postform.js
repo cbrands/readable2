@@ -54,7 +54,7 @@ class Postform extends Component {
             let newPost = {};
             newPost.id = generateUUID();
             newPost.deleted = false;
-            newPost. voteScore = 0;
+            newPost.voteScore = 0;
             newPost.title = "";
             newPost.body = "";
             newPost.author = "";

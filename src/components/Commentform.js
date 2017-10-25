@@ -49,7 +49,7 @@ class Postform extends Component {
             let newComment = {};
             newComment.id = generateUUID();
             newComment.deleted = false;
-            newComment. voteScore = 0;
+            newComment.voteScore = 0;
             newComment.body = "";
             newComment.author = "";
             newComment.timestamp = Date.now();

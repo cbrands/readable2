@@ -1,4 +1,3 @@
-import _ from "lodash";
 import {FETCH_COMMENTS} from "../actions/index";
 
 export default function(state = {}, action) {

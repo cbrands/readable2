@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Router } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { fetchComment, voteOnComment, fetchComments, deleteComment } from "../actions/index";
@@ -24,12 +24,11 @@ class CommentListItem extends Component {
     deleteComment() {
         this.props.deleteComment(this.props.comment.id);
         this.props.fetchComments(this.props.comment.parentId);
-        Router.dispatch(location.getCurrentPath(), null);
+        //Router.dispatch(location.getCurrentPath(), null);
     }
 
     render() {
         console.log('commenting', this.props);
-        let parentPost = Object.values(this.props.post)[0];
         return(
             <li className="list-group-item clearfix" key={this.props.comment.id}>
 
