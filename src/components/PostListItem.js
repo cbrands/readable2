@@ -26,7 +26,6 @@ class PostListItem extends Component {
     commentsCounter(postId){
         console.log('The postid = ', postId);
         axios.get(`${api}/posts/${postId}/comments`, getHeaders()).then((response) =>  {
-            //console.log('The comments', response.data.length);
             if(this.state.commentcounter !== response.data.length) {
                 this.setState({commentcounter: response.data.length});
             }

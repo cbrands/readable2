@@ -2,8 +2,6 @@ import axios from 'axios';
 import { getHeaders } from '../utils/AuthorizationHelper';
 import {api} from '../utils/Constants';
 
-//const api = "http://localhost:3001";
-
 export const FETCH_CATEGORIES = "fetch_categories";
 export const FETCH_POSTS = "fetch_posts";
 export const FETCH_POSTS_FOR_CATEGORY = "fetch_posts_for_category";
@@ -19,7 +17,6 @@ export const VOTE_ON_POST = "vote_on_post";
 export const VOTE_ON_COMMENT = "vote_on_comment";
 export const POST_SORT = "post_sort";
 export const COMMENT_SORT = "comment_sort";
-export const DELETE_COMMENT = "delete_comment";
 
 export function selectCategory(category) {
     return {
@@ -140,10 +137,3 @@ export function setCommentSort(option) {
     }
 }
 
-export function deleteComment(id) {
-    const request = axios.delete(`${api}/comments/${id}`, getHeaders());
-    return {
-        type: DELETE_COMMENT,
-        payload: request
-    };
-}

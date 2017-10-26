@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchComment, voteOnComment, fetchComments, deleteComment } from "../actions/index";
+import { fetchComment, voteOnComment, fetchComments } from "../actions/index";
+import axios from 'axios';
+import {api} from '../utils/Constants';
+import { getHeaders } from '../utils/AuthorizationHelper';
 
 class CommentListItem extends Component {
     constructor(props) {
@@ -21,10 +24,11 @@ class CommentListItem extends Component {
         this.props.fetchComments(this.props.comment.parentId);
     }
 
-    deleteComment() {
-        this.props.deleteComment(this.props.comment.id);
-        this.props.fetchComments(this.props.comment.parentId);
-        //Router.dispatch(location.getCurrentPath(), null);
+    deleteComment(commentId) {
+        axios.delete(`${api}/comments/${commentId}`, getHeaders()).then((response) =>  {
+            console.log(response);
+            this.props.fetchComments(this.props.comment.parentId);
+        });
     }
 
     render() {
@@ -42,7 +46,7 @@ class CommentListItem extends Component {
                           onClick={() => this.clicked(this.props.comment.id)}>
                         <i className="fa fa-pencil" aria-hidden="true"></i>
                     </Link>
-                    <button className="btn btn-danger" onClick={() => this.deleteComment()}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
+                    <button className="btn btn-danger" onClick={() => this.deleteComment(this.props.comment.id)}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
                 </div>
                 <div className="vote-buttons">
                     <button className="btn btn-primary margin-right10" onClick={() => this.voted('downVote')}>
@@ -66,7 +70,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchComment, voteOnComment, fetchComments, deleteComment }, dispatch);
+    return bindActionCreators({ fetchComment, voteOnComment, fetchComments }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentListItem);
