@@ -14,7 +14,6 @@ export const FETCH_COMMENT = "fetch_comment";
 export const NEW_COMMENT = "new_comment";
 export const EDIT_COMMENT = "edit_comment";
 export const VOTE_ON_POST = "vote_on_post";
-export const VOTE_ON_COMMENT = "vote_on_comment";
 export const POST_SORT = "post_sort";
 export const COMMENT_SORT = "comment_sort";
 
@@ -111,14 +110,6 @@ export function voteOnPost(post, option) {
     const request = axios.post(`${api}/posts/${post.id}`, { option }, getHeaders());
     return {
         type: VOTE_ON_POST,
-        payload: request
-    };
-}
-
-export function voteOnComment(comment, option) {
-    const request = axios.post(`${api}/comments/${comment.id}`, { option }, getHeaders());
-    return {
-        type: VOTE_ON_COMMENT,
         payload: request
     };
 }

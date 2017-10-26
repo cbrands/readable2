@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchComment, voteOnComment, fetchComments } from "../actions/index";
+import { fetchComment, fetchComments } from "../actions/index";
 import axios from 'axios';
 import {api} from '../utils/Constants';
 import { getHeaders } from '../utils/AuthorizationHelper';
@@ -20,13 +20,13 @@ class CommentListItem extends Component {
     }
 
     voted(option) {
-        this.props.voteOnComment(this.props.comment, option);
-        this.props.fetchComments(this.props.comment.parentId);
+        axios.post(`${api}/comments/${this.props.comment.id}`, { option }, getHeaders()).then((response) => {
+            this.props.fetchComments(this.props.comment.parentId);
+        });
     }
 
     deleteComment(commentId) {
-        axios.delete(`${api}/comments/${commentId}`, getHeaders()).then((response) =>  {
-            console.log(response);
+        axios.delete(`${api}/comments/${commentId}`, getHeaders()).then((response) => {
             this.props.fetchComments(this.props.comment.parentId);
         });
     }
@@ -70,7 +70,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchComment, voteOnComment, fetchComments }, dispatch);
+    return bindActionCreators({ fetchComment, fetchComments }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentListItem);
