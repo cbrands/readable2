@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import CommentList from './CommentList';
 import { bindActionCreators } from "redux";
-import { voteOnPost, setCommentSort  } from "../actions/index";
+import { setCommentSort  } from "../actions/index";
 
 class Postview extends Component {
     componentDidMount() {
@@ -81,7 +81,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ voteOnPost, setCommentSort }, dispatch);
+    return bindActionCreators({ setCommentSort }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Postview);

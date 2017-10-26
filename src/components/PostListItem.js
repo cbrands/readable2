@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchPost, fetchComments, voteOnPost } from "../actions/index";
+import { fetchPost, fetchComments, fetchPosts, fetchPostsForCategory } from "../actions/index";
 import axios from 'axios';
 import {api} from '../utils/Constants';
 import { getHeaders } from '../utils/AuthorizationHelper';
@@ -19,12 +19,16 @@ class PostListItem extends Component {
     }
 
     voted(option) {
-        this.props.voteOnPost(this.props.post, option);
-        //this.props.fetchComments(this.props.comment.parentId);
+        axios.post(`${api}/posts/${this.props.post.id}`, { option }, getHeaders()).then((response) => {
+            if(this.props.selectedCategory !== 'home') {
+                this.props.fetchPostsForCategory(this.props.selectedCategory);
+            } else {
+                this.props.fetchPosts();
+            }
+        });
     }
 
     commentsCounter(postId){
-        console.log('The postid = ', postId);
         axios.get(`${api}/posts/${postId}/comments`, getHeaders()).then((response) =>  {
             if(this.state.commentcounter !== response.data.length) {
                 this.setState({commentcounter: response.data.length});
@@ -70,8 +74,14 @@ class PostListItem extends Component {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchPost, fetchComments, voteOnPost }, dispatch);
+function mapStateToProps(state) {
+    return {
+        selectedCategory: state.selectedCategory,
+    };
 }
 
-export default connect(null, mapDispatchToProps)(PostListItem);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ fetchPost, fetchComments, fetchPosts, fetchPostsForCategory }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostListItem);
