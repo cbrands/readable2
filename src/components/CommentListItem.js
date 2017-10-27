@@ -46,7 +46,9 @@ class CommentListItem extends Component {
                           onClick={() => this.clicked(this.props.comment.id)}>
                         <i className="fa fa-pencil" aria-hidden="true"></i>
                     </Link>
-                    <button className="btn btn-danger" onClick={() => this.deleteComment(this.props.comment.id)}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
+                    <button className="btn btn-danger" onClick={() => this.deleteComment(this.props.comment.id)}>
+                        <i className="fa fa-trash-o" aria-hidden="true"></i>
+                    </button>
                 </div>
                 <div className="vote-buttons">
                     <button className="btn btn-primary margin-right10" onClick={() => this.voted('downVote')}>

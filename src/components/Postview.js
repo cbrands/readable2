@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import CommentList from './CommentList';
 import { bindActionCreators } from "redux";
-import { setCommentSort  } from "../actions/index";
+import { setCommentSort, fetchPost  } from "../actions/index";
+import axios from 'axios';
+import {api} from '../utils/Constants';
+import { getHeaders } from '../utils/AuthorizationHelper';
 
 class Postview extends Component {
     componentDidMount() {
@@ -11,11 +14,29 @@ class Postview extends Component {
     }
 
     voted(post, option) {
-        this.props.voteOnPost(post, option);
+        axios.post(`${api}/posts/${post.id}`, { option }, getHeaders()).then((response) => {
+            this.props.fetchPost(post.id);
+        });
     }
 
     handleSortChange(event) {
         this.props.setCommentSort(event.target.value);
+    }
+
+    deleteComment(commentId) {
+        axios.delete(`${api}/comments/${commentId}`, getHeaders()).then((response) => {
+            this.props.fetchComments(this.props.comment.parentId);
+        });
+    }
+
+    deleteAllCommentsForPost(postId) {
+        axios.get(`${api}/posts/${postId}/comments`, getHeaders()).then((response) => {
+            console.log(response);
+        });
+    }
+
+    deletePost(postId) {
+        this.deleteAllCommentsForPost(postId);
     }
 
     render() {
@@ -34,7 +55,9 @@ class Postview extends Component {
                         <div className="margin-bottom10">{myPost.author}</div>
                         <div className="edit-buttons">
                             <Link to={`/${myPost.category}/${myPost.id}/edit`} className="btn btn-primary margin-right10"><i className="fa fa-pencil" aria-hidden="true"></i></Link>
-                            <button className="btn btn-danger"><i className="fa fa-trash-o" aria-hidden="true"></i></button>
+                            <button className="btn btn-danger" onClick={() => this.deletePost(this.props.post.id)}>
+                                <i className="fa fa-trash-o" aria-hidden="true"></i>
+                            </button>
                         </div>
                         <div className="vote-buttons">
                             <button className="btn btn-primary margin-right10" onClick={() => this.voted(myPost, 'downVote')}>
@@ -81,7 +104,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ setCommentSort }, dispatch);
+    return bindActionCreators({ setCommentSort, fetchPost }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Postview);

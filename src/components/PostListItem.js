@@ -36,6 +36,10 @@ class PostListItem extends Component {
         });
     }
 
+    deletePost(postId) {
+
+    }
+
     render() {
         this.commentsCounter(this.props.post.id)
         return(
@@ -53,7 +57,9 @@ class PostListItem extends Component {
                     <Link to={`/${this.props.post.category}/${this.props.post.id}/edit`} className="btn btn-primary margin-right10" onClick={() => this.clicked(this.props.post.id)}>
                         <i className="fa fa-pencil" aria-hidden="true"></i>
                     </Link>
-                    <button className="btn btn-danger"><i className="fa fa-trash-o" aria-hidden="true"></i></button>
+                    <button className="btn btn-danger" onClick={() => this.deletePost(this.props.post.id)}>
+                        <i className="fa fa-trash-o" aria-hidden="true"></i>
+                    </button>
                     <span className="comments">
                         <i className="fa fa-comments" aria-hidden="true"></i>
                         <span className="comments-distance">{this.state.commentcounter}</span>

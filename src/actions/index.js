@@ -65,7 +65,7 @@ export function fetchComments(postId) {
 }
 
 export function newPost(post) {
-    const request = axios.post(`${api}/posts`, post, getHeaders())
+    const request = axios.post(`${api}/posts`, post, getHeaders());
     return {
         type: NEW_POST,
         payload: request
@@ -73,7 +73,7 @@ export function newPost(post) {
 }
 
 export function editPost(post) {
-    const request = axios.put(`${api}/posts/${post.id}`, post, getHeaders())
+    const request = axios.put(`${api}/posts/${post.id}`, post, getHeaders());
     return {
         type: EDIT_POST,
         payload: request
