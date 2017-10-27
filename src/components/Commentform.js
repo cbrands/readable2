@@ -61,10 +61,6 @@ class Postform extends Component {
         }
     }
 
-    handleTitleChange(event) {
-        this.setState({titleValue: event.target.value});
-    }
-
     handleBodyChange(event) {
         this.setState({bodyValue: event.target.value});
     }
@@ -87,7 +83,6 @@ class Postform extends Component {
     }
 
     render(){
-        console.log("commentform", this.props);
         return(
             <div className="container">
                 {this.state.redirect && <Redirect to={'/'} />}
