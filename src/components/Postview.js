@@ -23,15 +23,12 @@ class Postview extends Component {
         this.props.setCommentSort(event.target.value);
     }
 
-    deleteComment(commentId) {
-        axios.delete(`${api}/comments/${commentId}`, getHeaders()).then((response) => {
-            this.props.fetchComments(this.props.comment.parentId);
-        });
-    }
-
     deleteAllCommentsForPost(postId) {
+        console.log('postid', postId);
         axios.get(`${api}/posts/${postId}/comments`, getHeaders()).then((response) => {
-            console.log(response);
+            response.data.forEach((acomment) => {
+                axios.delete(`${api}/comments/${acomment.id}`, getHeaders())
+            })
         });
     }
 
@@ -55,7 +52,7 @@ class Postview extends Component {
                         <div className="margin-bottom10">{myPost.author}</div>
                         <div className="edit-buttons">
                             <Link to={`/${myPost.category}/${myPost.id}/edit`} className="btn btn-primary margin-right10"><i className="fa fa-pencil" aria-hidden="true"></i></Link>
-                            <button className="btn btn-danger" onClick={() => this.deletePost(this.props.post.id)}>
+                            <button className="btn btn-danger" onClick={() => this.deletePost(myPost.id)}>
                                 <i className="fa fa-trash-o" aria-hidden="true"></i>
                             </button>
                         </div>

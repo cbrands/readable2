@@ -32,7 +32,6 @@ class CommentListItem extends Component {
     }
 
     render() {
-        console.log('commenting', this.props);
         return(
             <li className="list-group-item clearfix" key={this.props.comment.id}>
 

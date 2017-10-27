@@ -6,7 +6,6 @@ import PostListItem from './PostListItem';
 class PostList extends Component {
 
     posts = () => {
-        console.log('posts = ', this.props.posts);
         let postsArray = Object.values(this.props.posts)
             .filter(comment => !comment.deleted)
             .sort((a, b) => {
