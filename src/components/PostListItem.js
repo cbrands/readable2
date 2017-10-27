@@ -36,8 +36,19 @@ class PostListItem extends Component {
         });
     }
 
-    deletePost(postId) {
-
+    deletePost(post) {
+        axios.get(`${api}/posts/${post.id}/comments`, getHeaders()).then((response) => {
+            response.data.forEach((acomment) => {
+                axios.delete(`${api}/comments/${acomment.id}`, getHeaders());
+            })
+        });
+        axios.delete(`${api}/posts/${post.id}`, getHeaders()).then((response) => {
+            if(this.props.selectedCategory !== 'home') {
+                this.props.fetchPostsForCategory(this.props.selectedCategory);
+            } else {
+                this.props.fetchPosts();
+            }
+        });
     }
 
     render() {
@@ -57,7 +68,7 @@ class PostListItem extends Component {
                     <Link to={`/${this.props.post.category}/${this.props.post.id}/edit`} className="btn btn-primary margin-right10" onClick={() => this.clicked(this.props.post.id)}>
                         <i className="fa fa-pencil" aria-hidden="true"></i>
                     </Link>
-                    <button className="btn btn-danger" onClick={() => this.deletePost(this.props.post.id)}>
+                    <button className="btn btn-danger" onClick={() => this.deletePost(this.props.post)}>
                         <i className="fa fa-trash-o" aria-hidden="true"></i>
                     </button>
                     <span className="comments">
